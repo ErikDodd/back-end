@@ -52,18 +52,6 @@ app.get('/weather', (req, res) => {
 });
 
 
-// data.find(lat => )
-
-
-
-// // app.get('/supplies', (req, res) => {
-// //     res.send(data.lists[1].items);
-// // });
-
-// // app.get('/food', (req, res) => {
-// //     res.send(data.lists[1].items);
-// // });
-
 // Catch all endpoint:
 
 // app.get('*', (req, res) => {
