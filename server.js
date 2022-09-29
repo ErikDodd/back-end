@@ -86,6 +86,7 @@ async function getMovieInfo(req, res) {
     }
 }
 
+
 // Catch all endpoint:
 app.get('*', notFound);
 
