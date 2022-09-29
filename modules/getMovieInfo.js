@@ -14,7 +14,6 @@
 // //     }
 // // }
 
-
 // // class Movie {
 // //     constructor(title, overview, vote_average, vote_count, poster_path, popularity, release_date) {
 // //         this.title = title;

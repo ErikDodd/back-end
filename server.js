@@ -53,7 +53,6 @@ class Movie {
 }
 
 // Declare Endpoints
-// -----------------
 
 app.get('/', (req, res) => {
     res.send('Hello from Express!');
