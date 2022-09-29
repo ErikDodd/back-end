@@ -24,6 +24,5 @@ async function getWeatherInfo(req, res) {
 }
 
 
-
 // node export syntax:
 module.exports = getWeatherInfo;
