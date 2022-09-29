@@ -23,5 +23,6 @@
 //     }
 // }
 
+
 // node export syntax:
 // module.exports = getWeatherInfo;
