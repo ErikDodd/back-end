@@ -14,7 +14,6 @@ const cors = require('cors');
 const axios = require('axios');
 // load data
 const weather = require('./data/weather.json');
-const { findSourceMap } = require('module');
 const { response } = require('express');
 // start our server
 const app = express();
@@ -29,37 +28,70 @@ const PORT = process.env.PORT || 3001;
 // Listening for Connection
 app.listen(PORT, () => console.log(`Listening on Port ${PORT}`));
 
-// Class 
+// Class Constructors
 class Forecast {
-    constructor(date, description) {
-    this.date = date;
+    constructor(description, datetime, temp) {
     this.description = description;
+    this.datetime = datetime;
+    this.temp = temp;
     }
 }
+
+class Movie {
+    constructor(original_title, overview, vote_average, vote_count, poster_path, popularity, release_date) {
+        this.original_title = original_title;
+        this.overview = overview;
+        this.vote_average = vote_average;
+        this.vote_count = vote_count;
+        this.poster_path = poster_path;
+        this.popularity = popularity;
+        this.release_date = release_date;
+    }
+}
+
 // Declare Endpoints
 // -----------------
 
+
 app.get('/', (req, res) => {
-    res.send('Hello from the home route!');
+    res.send('Hello from Express!');
 });
 
-app.get('/weather', (req, res) => {
-    const cityName = req.query.searchQuery
-    // const lat = req.query.lat
-    // const lon = req.query.lon
-    console.log(cityName);
-    const cityResult = weather.find(city => city.city_name === cityName)
-    // console.log(req.query);
-    const forecastArr = cityResult.data.map(e => new Forecast(e.datetime, e.weather.description));
-    res.send(forecastArr);
-});
+app.get('/weather', getWeatherInfo);
 
+async function getWeatherInfo(req, res) {
+    const searchQuery = req.query.searchQuery;
+    const weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?&city=${searchQuery}&key=${process.env.WEATHER_API_KEY}`
+    try {
+        const weatherResponse = await axios.get(weatherUrl);
+        const weatherArray = weatherResponse.data.data.map(e => new Forecast(e.description, e.datetime, e.temp));
+        res.status(200).send(weatherArray);
+    } catch {
+        console.log('error message is: ', error);
+        response.status(500).send(`server error ${error}`);
+    }
+}
+
+app.get('/movies', getMovieInfo);
+
+async function getMovieInfo(req, res) {
+    const query = req.query.searchQuery;
+    const movieUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${process.env.MOVIE_API_KEY}`;
+    try {
+        const movieResponse = await axios.get(movieUrl);
+        const movieArray = movieResponse.data.map(e => new Movie(original_title, overview, vote_average, vote_count, poster_path, popularity, release_date));
+        res.status(200).send(movieArray);
+    } catch {
+        console.log('error message is: ', error);
+        response.status(500).send(`server error ${error}`);
+    }
+}
 
 // Catch all endpoint:
 app.get('*', notFound);
 
 function notFound(req, res) {
-    response.status(404).send('Error Not Found');
+    res.status(404).send('Error Not Found');
 }
 
 // Problem Solving
