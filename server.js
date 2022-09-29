@@ -1,7 +1,6 @@
 'use strict';
 // This will be our server
 
-
 // Set Up
 // -------------
 
@@ -17,6 +16,10 @@ const axios = require('axios');
 const { response } = require('express');
 // start our server
 const app = express();
+
+// put relative filepath with ./ at the beginning
+// const getWeatherInfo = require('./modules/getWeatherInfo.js');
+// const getMovieInfo = require('./modules/getWeatherInfo.js');
 
 // Middleware
 // The app.use() function is used to mount the specified middleware functions(s) at the path which is being specified 
@@ -50,8 +53,6 @@ class Movie {
 }
 
 // Declare Endpoints
-// -----------------
-
 
 app.get('/', (req, res) => {
     res.send('Hello from Express!');
@@ -61,7 +62,7 @@ app.get('/weather', getWeatherInfo);
 
 async function getWeatherInfo(req, res) {
     const searchQuery = req.query.searchQuery;
-    const weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?&city=${searchQuery}&key=${process.env.WEATHER_API_KEY}`
+    const weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?&city=${searchQuery}&key=${process.env.WEATHER_API_KEY}`;
     try {
         const weatherResponse = await axios.get(weatherUrl);
         const weatherArray = weatherResponse.data.data.map(e => new Forecast(e.description, e.datetime, e.temp));
@@ -84,6 +85,7 @@ async function getMovieInfo(req, res) {
         response.status(500).send(`Server Error`);
     }
 }
+
 
 // Catch all endpoint:
 app.get('*', notFound);
