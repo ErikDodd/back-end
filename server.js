@@ -13,7 +13,7 @@ const cors = require('cors');
 // Install Axios
 const axios = require('axios');
 // load data
-const weather = require('./data/weather.json');
+// const weather = require('./data/weather.json');
 const { response } = require('express');
 // start our server
 const app = express();
@@ -38,8 +38,8 @@ class Forecast {
 }
 
 class Movie {
-    constructor(original_title, overview, vote_average, vote_count, poster_path, popularity, release_date) {
-        this.original_title = original_title;
+    constructor(title, overview, vote_average, vote_count, poster_path, popularity, release_date) {
+        this.title = title;
         this.overview = overview;
         this.vote_average = vote_average;
         this.vote_count = vote_count;
@@ -67,23 +67,21 @@ async function getWeatherInfo(req, res) {
         const weatherArray = weatherResponse.data.data.map(e => new Forecast(e.description, e.datetime, e.temp));
         res.status(200).send(weatherArray);
     } catch {
-        console.log('error message is: ', error);
-        response.status(500).send(`server error ${error}`);
+        response.status(500).send(`Server Error`);
     }
 }
 
 app.get('/movies', getMovieInfo);
 
 async function getMovieInfo(req, res) {
-    const query = req.query.searchQuery;
-    const movieUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${process.env.MOVIE_API_KEY}`;
+    const searchQuery = req.query.searchQuery;
+    const movieUrl = `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&api_key=${process.env.MOVIE_API_KEY}`;
     try {
         const movieResponse = await axios.get(movieUrl);
-        const movieArray = movieResponse.data.map(e => new Movie(original_title, overview, vote_average, vote_count, poster_path, popularity, release_date));
+        const movieArray = movieResponse.data.results.map(e => new Movie(e.title, e.overview, e.vote_average, e.vote_count, e.poster_path, e.popularity, e.release_date));
         res.status(200).send(movieArray);
     } catch {
-        console.log('error message is: ', error);
-        response.status(500).send(`server error ${error}`);
+        response.status(500).send(`Server Error`);
     }
 }
 
@@ -93,32 +91,3 @@ app.get('*', notFound);
 function notFound(req, res) {
     res.status(404).send('Error Not Found');
 }
-
-// Problem Solving
-// 1. check that server is running
-// 2. in frontend, check the network tab
-// 3. in the backend visit the url || thunder client GET request
-// = should see json data from the API
-
-// Demo Code from 9/28
-// app.get('/photos', getPhotos);
-// async function getPhotos(req, res) {
-//  const searchQuery = req.query.searchQuery;
-//  const url = `https://api.unsplash.com/search/photos/?client_id=${process.env.UNSPLASH_ACCESS_KEY}&query=${searchQuery}`;
-
-//  try {
-//      const photoResponse = await axios.get(url);
-//      const photoArray = photoResponse.data.results.map(photo => new Photo(photo));
-//      res.status(200).send(photoArray);
-// } catch (error) {
-    // console.log('error message is: ', error);
-    // response.status(500).send(`server error ${error}`);
-    // }
-// }
-
-// class Photo {
-//     constructor(obj) {
-//      this.img_url = obj.urls.regular;
-//      this.photographer = obj.user.name;
-//  }
-// }
