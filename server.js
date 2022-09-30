@@ -9,13 +9,12 @@ const express = require('express');
 // Allows for Cross Origin Resource Sharing
 const cors = require('cors');
 
-const { response } = require('express');
 // start our server
 const app = express();
 
 // put relative filepath with ./ at the beginning
 const getWeatherInfo = require('./modules/getWeatherInfo.js');
-const getMovieInfo = require('./modules/getWeatherInfo.js');
+const getMovieInfo = require('./modules/getMovieInfo.js');
 
 // Middleware
 app.use(cors());
