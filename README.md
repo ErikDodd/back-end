@@ -68,7 +68,7 @@ Start time: 2:30 PM
 
 Finish time: 10:30PM
 
-Actual time needed to complete: 5 hours
+Actual time needed to complete: 5.5 hours
 
 Special thank you to Tammy Do for helping me debug my backend and solve an issue that was creating a server error.
 
