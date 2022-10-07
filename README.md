@@ -68,7 +68,7 @@ Start time: 2:30 PM
 
 Finish time: 10:30PM
 
-Actual time needed to complete: 5 hours
+Actual time needed to complete: 5.5 hours
 
 Special thank you to Tammy Do for helping me debug my backend and solve an issue that was creating a server error.
 
@@ -85,3 +85,22 @@ Start time: 3:00pm
 Finish time: 6:00pm
 
 Actual time needed to complete: 3pm
+
+Name of feature: Lab10
+
+Partners: Mathieu Roberts
+
+Estimate of time needed to complete: 3 hours
+
+Start time: 2:00PM
+
+Finish time: 6:00PM
+
+Actual time needed to complete: 4 hours
+
+
+## Attributions Lab 10
+
+Thank you to Adam for helping me debug my issue with cache.
+
+Thank you to Tammy Do for helping troubleshoot my issues with rendering the movie images.
